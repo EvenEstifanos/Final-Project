@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CMSC335 Project 7 - Deployment</title>
+</head>
+<body>
+    <h1>Sample Page for Deployment on Render</h1>
+    
+    <ul>
+        <li><strong>Name:</strong> Even Estifanos</li>
+        <li><strong>GitHub Location:</strong> <a href="https://github.com/EvenEstifanos/even7777pTERP">https://github.com/EvenEstifanos/even7777pTERP</a></li>
+        <li><strong>Render Location:</strong> <a href="https://even7777pterp.onrender.com">https://even7777pterp.onrender.com</a></li>
+        <li><strong>Clearing Database Movies:</strong> <a href="https://even7777pterp.onrender.com/clearCollection">https://even7777pterp.onrender.com/clearCollection</a></li>
+        <li><strong>Inserting Movies:</strong> <a href="https://even7777pterp.onrender.com/insertMovies">https://even7777pterp.onrender.com/insertMovies</a></li>
+        <li><strong>List Movies:</strong> <a href="https://even7777pterp.onrender.com/listMovies">https://even7777pterp.onrender.com/listMovies</a></li>
+    </ul>
+</body>
+</html>

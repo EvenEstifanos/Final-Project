@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>UMD Study Spots</title>
+  <link rel="stylesheet" href="/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<h1>UMD Study Spots</h1>
+
+<% if (weather) { %>
+  <p>College Park Weather: <%= weather.main.temp %>°F</p>
+<% } %>
+
+<form action="/spots/add" method="POST">
+  <input name="name" placeholder="Study spot name" required>
+  <input name="description" placeholder="Why it's good">
+  <button type="submit">Add Spot</button>
+</form>
+
+<ul>
+  <% if (typeof spots !== "undefined") { %>
+    <% spots.forEach(s => { %>
+      <li><strong><%= s.name %></strong> - <%= s.description %></li>
+    <% }) %>
+  <% } %>
+</ul>
+
+</body>
+</html>
