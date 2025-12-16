@@ -2,11 +2,11 @@ Submitted by: Your Name (yourDirectoryID)
 
 Group Members: Your Name (yourDirectoryID)
 
-App Description: UMD SpacePulse is a campus study-space availability platform that allows students to view study spaces, report crowd levels, and make decisions using live weather context.
+App Description: LogoGuessr is a web-based quiz application where users guess company names based on their logos. User guesses and results are stored in a MongoDB database.
 
 YouTube Video Link: https://youtube.com/your-demo-link
 
-APIs: OpenWeather API (https://openweathermap.org/api)
+APIs: Clearbit Logo API (https://clearbit.com/logo)
 
 Contact Email: yourDirectoryID@umd.edu
 

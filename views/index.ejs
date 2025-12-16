@@ -1,61 +1,22 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>UMD SpacePulse</title>
+  <title>LogoGuessr</title>
   <link rel="stylesheet" href="/style.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
 </head>
 <body>
 
-<h1>UMD SpacePulse</h1>
+<h1>LogoGuessr</h1>
+<p>Guess the company logo</p>
 
-<h2>Add Study Space</h2>
-<form action="/spaces/add" method="POST">
-  <input name="name" placeholder="Space name" required>
-  <input name="location" placeholder="Building / Area" required>
+<img src="<%= logo %>" alt="Company Logo">
 
-  <select name="indoor">
-    <option value="true">Indoor</option>
-    <option value="false">Outdoor</option>
-  </select>
-
-  <select name="noiseLevel">
-    <option>Quiet</option>
-    <option>Moderate</option>
-    <option>Loud</option>
-  </select>
-
-  <select name="hasOutlets">
-    <option value="true">Outlets Available</option>
-    <option value="false">No Outlets</option>
-  </select>
-
-  <button type="submit">Add Space</button>
+<form action="/guess" method="POST">
+  <input type="hidden" name="company" value="<%= company %>">
+  <input name="guess" placeholder="Enter company name" required>
+  <button type="submit">Submit</button>
 </form>
-
-<h2>Study Spaces</h2>
-
-<ul>
-  <% spaces.forEach(space => { %>
-    <li>
-      <strong><%= space.name %></strong> — <%= space.location %><br>
-      Indoor: <%= space.indoor %> |
-      Noise: <%= space.noiseLevel %> |
-      Outlets: <%= space.hasOutlets %><br>
-      Crowd: <%= space.crowdLevel %>
-
-      <form action="/spaces/crowd" method="POST">
-        <input type="hidden" name="id" value="<%= space._id %>">
-        <select name="crowdLevel">
-          <option>Empty</option>
-          <option>Moderate</option>
-          <option>Crowded</option>
-        </select>
-        <button type="submit">Update Crowd</button>
-      </form>
-    </li>
-  <% }) %>
-</ul>
 
 </body>
 </html>
