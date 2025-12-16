@@ -1,39 +1,53 @@
 const express = require("express");
+const axios = require("axios");
 const Result = require("../models/Result");
 
 const router = express.Router();
 
 const companies = [
-  { name: "Google", domain: "google.com" },
-  { name: "Apple", domain: "apple.com" },
-  { name: "Nike", domain: "nike.com" },
-  { name: "Amazon", domain: "amazon.com" },
-  { name: "Microsoft", domain: "microsoft.com" },
-  { name: "Netflix", domain: "netflix.com" },
-  { name: "Spotify", domain: "spotify.com" }
+  "google.com",
+  "apple.com",
+  "microsoft.com",
+  "amazon.com",
+  "nike.com",
+  "spotify.com",
+  "ibm.com"
 ];
 
 router.get("/", async (req, res) => {
-  const random = companies[Math.floor(Math.random() * companies.length)];
-  res.render("index", {
-    logo: `https://logo.clearbit.com/${random.domain}`,
-    company: random.name
-  });
+  const domain = companies[Math.floor(Math.random() * companies.length)];
+
+  let logoUrl = null;
+
+  try {
+    const response = await axios.get(
+      `https://api.brandfetch.io/v2/brands/${domain}`,
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.BRANDFETCH_KEY}`
+        }
+      }
+    );
+
+    logoUrl = response.data.logos[0].formats[0].src;
+  } catch (err) {
+    logoUrl = "https://via.placeholder.com/300?text=Logo+Unavailable";
+  }
+
+  res.render("index", { logo: logoUrl, company: domain });
 });
 
 router.post("/guess", async (req, res) => {
   const correct =
     req.body.guess.trim().toLowerCase() ===
-    req.body.company.toLowerCase();
+    req.body.company.split(".")[0].toLowerCase();
 
-  const result = new Result({
+  await new Result({
     company: req.body.company,
     guess: req.body.guess,
-    correct: correct,
+    correct,
     createdAt: new Date()
-  });
-
-  await result.save();
+  }).save();
 
   res.redirect("/");
 });
