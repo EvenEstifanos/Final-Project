@@ -1,8 +1,10 @@
+require("dotenv").config();
+
 const express = require("express");
 const mongoose = require("mongoose");
 const axios = require("axios");
 
-const spotRoutes = require("./routes/spots");
+const spaceRoutes = require("./routes/spaces");
 
 const app = express();
 
@@ -12,7 +14,7 @@ app.use(express.static("public"));
 
 mongoose.connect(process.env.MONGO_URI);
 
-app.use("/spots", spotRoutes);
+app.use("/spaces", spaceRoutes);
 
 app.get("/", async (req, res) => {
   let weather = null;
@@ -24,7 +26,10 @@ app.get("/", async (req, res) => {
     weather = response.data;
   } catch (err) {}
 
-  res.render("index", { weather });
+  res.redirect("/spaces");
 });
 
-app.listen(3000);
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log("Server running on port " + PORT);
+});

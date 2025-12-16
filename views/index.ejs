@@ -1,30 +1,60 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>UMD Study Spots</title>
+  <title>UMD SpacePulse</title>
   <link rel="stylesheet" href="/style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
 </head>
 <body>
 
-<h1>UMD Study Spots</h1>
+<h1>UMD SpacePulse</h1>
 
-<% if (weather) { %>
-  <p>College Park Weather: <%= weather.main.temp %>°F</p>
-<% } %>
+<h2>Add Study Space</h2>
+<form action="/spaces/add" method="POST">
+  <input name="name" placeholder="Space name" required>
+  <input name="location" placeholder="Building / Area" required>
 
-<form action="/spots/add" method="POST">
-  <input name="name" placeholder="Study spot name" required>
-  <input name="description" placeholder="Why it's good">
-  <button type="submit">Add Spot</button>
+  <select name="indoor">
+    <option value="true">Indoor</option>
+    <option value="false">Outdoor</option>
+  </select>
+
+  <select name="noiseLevel">
+    <option>Quiet</option>
+    <option>Moderate</option>
+    <option>Loud</option>
+  </select>
+
+  <select name="hasOutlets">
+    <option value="true">Outlets Available</option>
+    <option value="false">No Outlets</option>
+  </select>
+
+  <button type="submit">Add Space</button>
 </form>
 
+<h2>Study Spaces</h2>
+
 <ul>
-  <% if (typeof spots !== "undefined") { %>
-    <% spots.forEach(s => { %>
-      <li><strong><%= s.name %></strong> - <%= s.description %></li>
-    <% }) %>
-  <% } %>
+  <% spaces.forEach(space => { %>
+    <li>
+      <strong><%= space.name %></strong> — <%= space.location %><br>
+      Indoor: <%= space.indoor %> |
+      Noise: <%= space.noiseLevel %> |
+      Outlets: <%= space.hasOutlets %><br>
+      Crowd: <%= space.crowdLevel %>
+
+      <form action="/spaces/crowd" method="POST">
+        <input type="hidden" name="id" value="<%= space._id %>">
+        <select name="crowdLevel">
+          <option>Empty</option>
+          <option>Moderate</option>
+          <option>Crowded</option>
+        </select>
+        <button type="submit">Update Crowd</button>
+      </form>
+    </li>
+  <% }) %>
 </ul>
 
 </body>
