@@ -1,0 +1,16 @@
+<h1>Logo Quiz</h1>
+
+<p>Question <%= questionNum %> / 10</p>
+<p>Score: <%= score %></p>
+
+<img src="<%= logo %>" width="250" />
+
+<form method="POST" action="/answer">
+  <input
+    type="text"
+    name="answer"
+    placeholder="Enter company name"
+    required
+  />
+  <button type="submit">Submit</button>
+</form>

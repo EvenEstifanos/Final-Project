@@ -1,7 +1,6 @@
 require("dotenv").config();
-
 const express = require("express");
-const mongoose = require("mongoose");
+const session = require("express-session");
 
 const quizRoutes = require("./routes/quiz");
 
@@ -11,11 +10,16 @@ app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
-mongoose.connect(process.env.MONGO_URI);
+app.use(
+  session({
+    secret: "logo-quiz-secret",
+    resave: false,
+    saveUninitialized: true,
+  })
+);
 
 app.use("/", quizRoutes);
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log("Logo Quiz running on port " + PORT);
+app.listen(3000, () => {
+  console.log("Logo Quiz running on http://localhost:3000");
 });

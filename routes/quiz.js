@@ -1,55 +1,40 @@
 const express = require("express");
-const axios = require("axios");
-const Result = require("../models/Result");
-
 const router = express.Router();
 
-const companies = [
-  "google.com",
-  "apple.com",
-  "microsoft.com",
-  "amazon.com",
-  "nike.com",
-  "spotify.com",
-  "ibm.com"
+const logos = [
+  { image: "apple.png", answer: "apple" },
+  { image: "audi.png", answer: "audi" },
+  { image: "chevrolet.png", answer: "chevrolet" },
+  { image: "facebook.png", answer: "facebook" },
+  { image: "mcdonalds.png", answer: "mcdonalds" },
+  { image: "nike.png", answer: "nike" },
+  { image: "pepsi.png", answer: "pepsi" },
+  { image: "popeyes.png", answer: "popeyes" },
+  { image: "shell.png", answer: "shell" },
+  { image: "toyota.png", answer: "toyota" }
 ];
 
-router.get("/", async (req, res) => {
-  const domain = companies[Math.floor(Math.random() * companies.length)];
+// shuffle helper
+function shuffle(array) {
+  return array.sort(() => Math.random() - 0.5);
+}
 
-  let logoUrl = null;
-
-  try {
-    const response = await axios.get(
-      `https://api.brandfetch.io/v2/brands/${domain}`,
-      {
-        headers: {
-          Authorization: `Bearer ${process.env.BRANDFETCH_KEY}`
-        }
-      }
-    );
-
-    logoUrl = response.data.logos[0].formats[0].src;
-  } catch (err) {
-    logoUrl = "https://via.placeholder.com/300?text=Logo+Unavailable";
-  }
-
-  res.render("index", { logo: logoUrl, company: domain });
+router.get("/", (req, res) => {
+  const quiz = shuffle([...logos]); // already 10
+  res.render("quiz", { quiz, score: null });
 });
 
-router.post("/guess", async (req, res) => {
-  const correct =
-    req.body.guess.trim().toLowerCase() ===
-    req.body.company.split(".")[0].toLowerCase();
+router.post("/submit", (req, res) => {
+  let score = 0;
 
-  await new Result({
-    company: req.body.company,
-    guess: req.body.guess,
-    correct,
-    createdAt: new Date()
-  }).save();
+  logos.forEach((logo, index) => {
+    const guess = req.body[`q${index}`];
+    if (guess && guess.toLowerCase().trim() === logo.answer) {
+      score++;
+    }
+  });
 
-  res.redirect("/");
+  res.render("quiz", { quiz: logos, score });
 });
 
 module.exports = router;
